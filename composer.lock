@@ -4,7 +4,6 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c1562196511a07be9af43cdfef7bf771",
     "content-hash": "94715e54905f0e433980ebc4b00d7cc0",
     "packages": [
         {
@@ -51,7 +50,7 @@
                 "pdo",
                 "slim"
             ],
-            "time": "2016-08-14 11:42:49"
+            "time": "2016-08-14T11:42:49+00:00"
         }
     ],
     "packages-dev": [],

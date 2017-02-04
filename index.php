@@ -7,121 +7,78 @@
  */
 setlocale(LC_TIME, "fr_CA");
 require_once 'db/BD.php';
-require_once 'functions/Projet.php';
-require_once 'functions/Tache.php';
+require_once 'classes/Projet.php';
+require_once 'classes/Helpers.php';
 
-//Création du formulaire d'ajout des projets
-//require_once "formulaires/ajoutProjet.php";
+$helper = new Ubeo\Helpers();
+
+$projects = $helper::getIdProjects($pdo);
+$GLOBALS["dateMinimum"] = $helper::getDateMinimum($pdo);
 
 ?>
+
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Cédule | Gestionnaire de projets Ubéo</title>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Ubéo | Cédule</title>
 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="assets/css/cedule.css" >
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="Ubeo - www.ubeo.ca"/>
 
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
-            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-            crossorigin="anonymous">
+    <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css" media="all" />
+    <link rel="stylesheet" type="text/css" media="all" href="assets/css/style.css" />
+
+    <meta property="og:url" content="http://www.ubeo.ca" />
+    <meta property="og:type" content="company" />
+    <meta property="og:title" content="Ubeo" />
+    <meta property="og:image" content="http://www.ubeo.ca/images/facebook_share.png" />
+    <meta property="og:description" content="Description du site" />
+
+    <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.easing.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.localScroll.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.scrollTo.min.js"></script>
+    <script>
+        $(function(){
+            $.localScroll();
+            $(window).scroll(function(){
+                if($(window).scrollTop() > 640){
+                    $('#btn_top').show(180);
+                }else{
+                    $('#btn_top').hide(180);
+                }
+            });
+        });
     </script>
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 <body>
+<div id="top_page">
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-1"></div>
-            <?php
-                $projets = $projet->getProjetTitles();
-                foreach ($projets as $project){
-                    print "<div class='col-md-1'>".$project['nom']."</div>";
-                }
-            ?>
-        </div>
-    </div>
+</div>
+<a id="btn_top" href="#top_page"></a>
 
 
-<?php
 
-    $datepluspetite = strtotime($projet->getDatePlusPetite());
-    $dateplusgrande = strtotime($projet->getDatePlusGrande());
-
-    //1 pour lundi 7 pour dimanche//
-    $joursemaine = date( 'N' , $datepluspetite);
-
-    if ($joursemaine == 1){
-        $dernierlundi = $datepluspetite;
-    }else{
-        $dernierlundi = strtotime('previous monday', $datepluspetite);
+<div id="weeks">
+    <!-- =========== 1 projet =========== -->
+    <!-- =========== 1 projet =========== -->
+    <?php
+    if (isset($projects)){
+        foreach ($projects as $id_projet){
+            $project = new Ubeo\Projet($pdo, $id_projet["id_projet"]);
+            $project->printTitle();
+            $project->createTaches();
+        }
     }
 
-    $datetoprint = '';
+    ?>
 
-    //Sem. '. utf8_encode(strftime('%e %b', $dernierlundi));
-    while(date('Y-m-d', $dernierlundi) <= date('Y-m-d', $dateplusgrande)){
 
-        print '<div class="row">';
-            print '<div class="col-md-12 pre" id="'.date("Y-m-d", $dernierlundi).'">';
-            for ($i = 0; $i <5; $i++){
-                //On rajoute un jour
-                if ($i > 0){
-                    $dernierlundi = $dernierlundi + (60 * 60 * 24);
-                }else{
-                    $datetoprint = 'Sem. '. strftime('%e %b', $dernierlundi);
-                }
-
-                print '<div class="row">';
-                for ($x = 0; $x < 12; $x++){
-
-                    $id = date("Y-m-d", $dernierlundi). "-".$x;
-                    print '<div class="col-md-1" id="'.$id.'">';
-                    print $datetoprint !== '' ? $datetoprint : '';
-                    print '</div>';
-                }
-                print '</div>';
-
-                $datetoprint = '';
-            }
-            print '</div>';
-        print '</div>';
-
-        print '<div class="row">';
-            print '<div class="col-md-12">';
-            for ($i = 0; $i < 2; $i++){
-                //On rajoute un jour
-                $dernierlundi = $dernierlundi + (60 * 60 * 24);
-
-                print '<div class="row">';
-                for ($x = 0; $x < 12; $x++){
-
-                    $id = date("Y-m-d", $dernierlundi). "-".$x;
-                    print '<div class="col-md-1" id="'.$id.'">';
-                    print '</div>';
-                }
-                print '</div>';
-            }
-            print '</div>';
-        print '</div>';
-
-        $dernierlundi = $dernierlundi + (60 * 60 * 24 * 1);
-    }
-
-    $taches  = $projet->getTacheDetailsByProjet(1);
-
-    foreach ($taches as $tache){
-
-        $style = $tacheobjet->getTacheStyle($tache, 1);
-        print '<div class=".col-md-1" style="'.$style.'">'.$tache["nom"].'</div>';
-    }
-
-?>
 </div>
 </body>
 </html>

@@ -1,0 +1,386 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, hr, blockquote, pre,
+a, a img, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, input, label, legend,
+table, caption, tbody, tfoot, thead, tr, th,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video { margin:0;padding:0;border:0;font-size:100%; }
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display:block; }
+blockquote, q { quotes:none; }
+blockquote:before, blockquote:after, q:before, q:after { content:'';content:none; }
+table { border-collapse:collapse;border-spacing:0; }
+::-moz-selection { background:#ccc;color:#000;text-shadow:none; }
+::selection      { background:#ccc;color:#000;text-shadow:none; }
+html { -webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; }
+body { -webkit-font-smoothing:antialiased; }
+img { max-width:100%;height:auto;vertical-align:middle;border:0;outline:0; }
+sup { font-size:0.7em;line-height:0.7em;}
+/*------------------------------------------------------------------------*\
+    Generic styles
+\*------------------------------------------------------------------------*/
+.bold { font-weight:bold !important; }
+.normal { font-weight:normal !important; }
+.italic { font-style:italic !important; }
+.text_uppercase { text-transform:uppercase !important; }
+.text_lowercase { text-transform:lowercase !important; }
+.text_right { text-align:right !important; }
+.text_center { text-align:center !important; }
+.text_justify { text-align:justify !important; }
+.floatL { float:left; }
+.floatR { float:right; }
+.margB_0 { margin-bottom:0; }
+.margB_3 { margin-bottom:3px; }
+.margB_8 { margin-bottom:8px; }
+.margB_30 { margin-bottom:30px; }
+.margB_45 { margin-bottom:45px; }
+.valignM { vertical-align:middle; }
+.clearfix:before, .clearfix:after { content:"";display:table; }
+.clearfix:after { clear:both; }
+.clearfix { zoom:1; }
+.clear { clear:both;float:none !important; }
+.top_td td { vertical-align:top; }
+.bottom_td td { vertical-align:bottom; }
+.for_print { display:none; }
+/*------------------------------------------*\
+    Form elements
+\*------------------------------------------*/
+textarea {
+	resize:none;
+}
+.animated {
+	-webkit-transition: height 0.2s;
+	-moz-transition: height 0.2s;
+	transition: height 0.2s;
+    max-height: 200px;
+}
+textarea,
+select,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"] {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+    outline: none;
+	background: #fff;
+	width: 98%;
+	min-height: 16px;
+	border: 1px solid #cccccc;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	padding: 6px 1%;
+	webkit-box-shadow: inset 0 4px 12px #e9e9e9;
+	-moz-box-shadow: inset 0 4px 12px #e9e9e9;
+	box-shadow: inset 0 4px 12px #e9e9e9;
+	-webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+	-moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+	-o-transition: border linear 0.2s, box-shadow linear 0.2s;
+	transition: border linear 0.2s, box-shadow linear 0.2s;
+}
+textarea:focus,
+select:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus {
+	border-color: #999999;
+	-webkit-box-shadow: inset 0 1px 1px #e9e9e9, 0 0 6px #c0c0c0;
+	-moz-box-shadow: inset 0 1px 1px #e9e9e9, 0 0 6px #c0c0c0;
+	box-shadow: inset 0 1px 1px #e9e9e9, 0 0 6px #c0c0c0;
+}
+select {
+	width: 100%;
+	padding: 6px 0;
+	text-indent: 6px;
+}
+select optgroup { background:#f4f4f4; }
+select option { background:#fff; }
+.form_button {
+	display: inline-block;
+	padding: 4px 16px;
+	text-align: center;
+	vertical-align: middle;
+	cursor: pointer;
+	border: 1px solid #d3d3d3;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	background-color: #e6e6e6;
+	background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));
+	background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+	background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
+	background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#e6e6e6', GradientType=0);
+	-webkit-box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+	-moz-box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+	box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.form_button:hover {
+	color: #000;
+	border: 1px solid #b1b1b1;
+	background-color: #d0d0d0;
+	background-image: -moz-linear-gradient(top, #ffffff, #d0d0d0);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#d0d0d0));
+	background-image: -webkit-linear-gradient(top, #ffffff, #d0d0d0);
+	background-image: -o-linear-gradient(top, #ffffff, #d0d0d0);
+	background-image: linear-gradient(to bottom, #ffffff, #d0d0d0);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#d0d0d0', GradientType=0);
+}
+input[type="submit"] {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+}
+body { 
+	font: 12px/25px Tahoma, Geneva, sans-serif;
+	color: #222;
+	background: #fff;
+}
+h6 {
+	font-size: 11px;
+	line-height: 15px;
+	color: #fff;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	font-weight: 400;
+	text-align: center;
+	background: #999;
+}
+.box.end {
+	border: solid 1px #C00;
+}
+.end h6 {
+	background: #C00;
+}
+p, hr, ul, ol {
+	margin: 0 0 20px 0;
+}
+ul, ol {
+	padding: 0 0 0 15px;
+}
+.content li {
+	margin: 0 0 3px 0;
+}
+hr {
+	height: 1px;
+	border: none;
+	background: #ccc;
+}
+a {
+	-webkit-transition: all 0.25s ease-out;
+	-moz-transition: all 0.25s ease-out;
+	-ms-transition: all 0.25s ease-out;
+	-o-transition: all 0.25s ease-out;
+	transition: all 0.25s ease-out;
+	color: #999;
+	text-decoration: none;
+}
+a:hover {
+	color: #000;
+}
+/*------------------------------------------*\
+    Calendrier
+\*------------------------------------------*/
+#top_page {
+	height: 30px;
+	border-bottom: solid 1px #e1e1e1;
+	background: #fff;
+}
+#weeks {
+	width: 100%;
+	position: relative;
+}
+.week {
+	width: 100%;
+	height: 105px;
+}
+.week_days {
+	width: 100%;
+	height: 75px;
+	line-height: 75px;
+	text-indent: 15px;
+	background: #f5f5f5;
+}
+.week_ends {
+	width: 100%;
+	height: 30px;
+	background: #fff;
+}
+/*------------------------------------------*\
+    Boîtes projets hauteurs
+\*------------------------------------------*/
+.title {
+	position: fixed;
+	width: 192px;
+	height: 30px;
+	top: 0px;
+	border: solid 1px #000;
+	text-align: center;
+	color: #fff;
+	line-height: 30px;
+	overflow: hidden;
+	background: #000;
+	z-index: 22;
+}
+a.title:hover {
+	color: #fff;
+	background: #444;
+}
+.box {
+	position: absolute;
+	width: 192px;
+	border: solid 1px #999;
+	background: #e7e7e7;
+	background: -moz-linear-gradient(top,  #e7e7e7 0%, #ffffff 80%);
+	background: -webkit-linear-gradient(top,  #e7e7e7 0%,#ffffff 80%);
+	background: linear-gradient(to bottom,  #e7e7e7 0%,#ffffff 80%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e7e7e7', endColorstr='#ffffff',GradientType=0 );
+}
+.box p {
+	padding: 5px 15px 0 15px;
+	margin-bottom: 0px;
+	height: 70px;
+	text-align: center;
+}
+.box.week2 {
+	height: 210px;
+}
+.box.week2 p {
+	height: 175px;
+}
+.box.week3 {
+	height: 315px;
+}
+.box.week3 p {
+	height: 280px;
+}
+.box.week4 {
+	height: 420px;
+}
+.box.week4 p {
+	height: 385px;
+}
+.box.week5 {
+	height: 525px;
+}
+.box.week5 p {
+	height: 490px;
+}
+.box.week6 {
+	height: 630px;
+}
+.box.week6 p {
+	height: 595px;
+}
+.box.week7 {
+	height: 735px;
+}
+.box.week7 p {
+	height: 700px;
+}
+.box.week8 {
+	height: 840px;
+}
+.box.week8 p {
+	height: 805px;
+}
+/*------------------------------------------*\
+    Boîtes projets états
+\*------------------------------------------*/
+.box.validate {
+	background: #cbf5c1;
+	background: -moz-linear-gradient(top,  #cbf5c1 0%, #ffffff 80%);
+	background: -webkit-linear-gradient(top,  #cbf5c1 0%,#ffffff 80%);
+	background: linear-gradient(to bottom,  #cbf5c1 0%,#ffffff 80%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cbf5c1', endColorstr='#ffffff',GradientType=0 );
+}
+.box.warning {
+	background: #f9caca;
+	background: -moz-linear-gradient(top,  #f9caca 0%, #ffffff 80%);
+	background: -webkit-linear-gradient(top,  #f9caca 0%,#ffffff 80%);
+	background: linear-gradient(to bottom,  #f9caca 0%,#ffffff 80%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9caca', endColorstr='#ffffff',GradientType=0 );
+}
+.state_open, .state_close {
+	font-size: 20px;
+	margin: 0 3px;
+}
+.infos {
+	font-size: 25px;
+	margin: 0 3px;
+}
+.state_open .fa-dot-circle-o {
+	display: none;
+}
+.state_close .fa-circle-o {
+	display: none;
+}
+.state_close .fa-dot-circle-o {
+	display: inline-block;
+}
+.infos {
+	font-size: 20px;
+}
+/*------------------------------------------*\
+    # Projets
+\*------------------------------------------*/
+.projet1 {
+	left: 200px;
+}
+.projet2 {
+	left: 400px;
+}
+.projet3 {
+	left: 600px;
+}
+.projet4 {
+	left: 800px;
+}
+.projet5 {
+	left: 1000px;
+}
+.projet6 {
+	left: 1200px;
+}
+.projet7 {
+	left: 1400px;
+}
+.projet8 {
+	left: 1600px;
+}
+.projet9 {
+	left: 1800px;
+}
+.projet10 {
+	left: 2000px;
+}
