@@ -23,8 +23,6 @@ class Projet{
     public static $ordre_currente = 1;
     private $ordre;
 
-
-
     function __construct($db, $projet)
     {
         $this->setOrdre(self::$ordre_currente);
@@ -192,7 +190,7 @@ class Projet{
         $id_taches = $this->getTachesIdsFromProjet();
         if ($id_taches) {
             foreach ($id_taches as $id_tache){
-                $tache = new Tache($this->db, $id_tache);
+                $tache = new Tache($this->db, $id_tache["id_tache"]);
                 $tache->printTache($this->getOrdre());
             }
         }
@@ -206,9 +204,9 @@ class Projet{
      * Sauvegarde un nouveau projet dans la db
      */
     private function insertProject($projet){
-        $query = $this->db->insert( [ 'nom', 'active', 'montant_soumission', 'date_livraison' ] )
+        $query = $this->db->insert( array_keys($projet) )
             ->into('projets')
-            ->values( [ $projet["nom"], $projet["active"], $projet["montant_soumission"], $projet["date_livraison"] ] );
+            ->values( array_values($projet) );
 
         return $insert_id = $query->execute(false);
     }

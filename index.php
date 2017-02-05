@@ -8,12 +8,14 @@
 setlocale(LC_TIME, "fr_CA");
 require_once 'db/BD.php';
 require_once 'classes/Projet.php';
+require_once 'classes/Tache.php';
 require_once 'classes/Helpers.php';
 
+global $helper;
 $helper = new Ubeo\Helpers();
 
 $projects = $helper::getIdProjects($pdo);
-$GLOBALS["dateMinimum"] = $helper::getDateMinimum($pdo);
+$_SESSION["dateMinimum"] = $helper::getDateMinimum($pdo);
 
 ?>
 
@@ -80,5 +82,11 @@ $GLOBALS["dateMinimum"] = $helper::getDateMinimum($pdo);
 
 
 </div>
+
+<?php
+    $helper::printSemaines($pdo);
+?>
+
+
 </body>
 </html>

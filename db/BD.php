@@ -1,6 +1,5 @@
 <?php
 
-require_once 'config.php';
 require_once 'vendor/autoload.php';
 
 define("DB_DATABASE", "cedulede_cedule");
