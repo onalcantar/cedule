@@ -3,21 +3,28 @@
  * Affiche le formulaire pour ajouter un nouveau Projet.
  */
 
-$sqlSelect = "SELECT nom FROM Projet";
-$data = $database->getQuery($sqlSelect);
-foreach($data as $d)
-{
-    echo $d["nom"]." ".$d["datedebut"];
-}
 
-if (isset($_POST["nomprojet"]) && $_POST["nomprojet"]){
-    $sql = "INSERT INTO Projet SET nom = ";
+
+if ( $_POST["nomprojet"] && isset($_POST["nomprojet"]) ){
+
+    $projet = [
+      "nom" => $_POST["nomprojet"]
+    ];
+
+    require_once '../config.inc';
+
+    $last_id = new \Ubeo\Projet($pdo, $projet);
+    if ($last_id){
+        header('Location: ../index.php');
+        exit();
+    }
 }
 
 ?>
 
-<form action="ajoutProjet.php" method="post">
-    <input type="text" name="nomprojet" placeholder="Nom du projet" />
-    <input type="date" name="datedebut" placeholder="Date de début" />
-    <input type="submit" value="Créer" />
-</form>
+<div class="form-flotant">
+    <form action="/formulaires/ajoutProjet.php" method="post">
+        <input type="text" required name="nomprojet" placeholder="Nom du projet" />
+        <input type="submit" value="Créer" />
+    </form>
+</div>

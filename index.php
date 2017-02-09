@@ -5,17 +5,11 @@
  * Utiliser la variable $database comme objet de DB
  *
  */
-setlocale(LC_TIME, "fr_CA");
-require_once 'db/BD.php';
-require_once 'classes/Projet.php';
-require_once 'classes/Tache.php';
-require_once 'classes/Helpers.php';
 
-global $helper;
-$helper = new Ubeo\Helpers();
-
-$projects = $helper::getIdProjects($pdo);
-$_SESSION["dateMinimum"] = $helper::getDateMinimum($pdo);
+require_once 'config.inc';
+global $taches_helper;
+$taches_helper = new \Ubeo\TachesHelper();
+//$projects = $taches_helper::getIdProjects();
 
 ?>
 
@@ -45,6 +39,7 @@ $_SESSION["dateMinimum"] = $helper::getDateMinimum($pdo);
     <script type="text/javascript" src="assets/js/jquery.easing.min.js"></script>
     <script type="text/javascript" src="assets/js/jquery.localScroll.min.js"></script>
     <script type="text/javascript" src="assets/js/jquery.scrollTo.min.js"></script>
+    <script type="text/javascript" src="assets/js/projet.functions.js"></script>
     <script>
         $(function(){
             $.localScroll();
@@ -64,27 +59,26 @@ $_SESSION["dateMinimum"] = $helper::getDateMinimum($pdo);
 </div>
 <a id="btn_top" href="#top_page"></a>
 
-
-
 <div id="weeks">
-    <!-- =========== 1 projet =========== -->
-    <!-- =========== 1 projet =========== -->
     <?php
-    if (isset($projects)){
+
+    $projet_controller = new \Ubeo\ProjetController();
+    $projet_controller->printAllTaches();
+
+    /*if (isset($projects)){
         foreach ($projects as $id_projet){
-            $project = new Ubeo\Projet($pdo, $id_projet["id_projet"]);
+            $number_of_taches = $taches_helper::countNumberOfTachesParProjet($id_projet["id_projet"]);
+            $project = new Ubeo\Projet($id_projet["id_projet"]);
             $project->printTitle();
-            $project->createTaches();
+            $project->createTaches($number_of_taches);
         }
-    }
+    }*/
 
     ?>
-
-
 </div>
 
 <?php
-    $helper::printSemaines($pdo);
+    $taches_helper::printSemaines();
 ?>
 
 

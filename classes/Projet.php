@@ -9,9 +9,9 @@
 
 namespace Ubeo;
 
-use Ubeo\Tache;
+include_once "Model.php";
 
-class Projet{
+class Projet extends Model {
 
     protected $db;
     private $id_projet;
@@ -23,12 +23,13 @@ class Projet{
     public static $ordre_currente = 1;
     private $ordre;
 
-    function __construct($db, $projet)
+    function __construct($projet = null)
     {
         $this->setOrdre(self::$ordre_currente);
         self::$ordre_currente++;
 
-        $this->db = $db;
+        parent::__construct();
+        $this->db = parent::$db_connection;
 
         if (is_array($projet)){
             $this->insertProject($projet);
@@ -149,16 +150,11 @@ class Projet{
     }
 
     /**
-     * Récupère un prjet par son ID
+     * Récupère un projet par son ID
      */
     private function getProjectById( $projet_id ){
-        $query = $this->db->select()
-            ->from('projets')
-            ->where('id_projet', '=', $projet_id)
-            ->orderby('id_projet');
 
-        $stmt = $query->execute();
-        $projet = $stmt->fetch();
+        $projet = parent::getDataById($projet_id, 'projets', 'id_projet');
 
         if($projet) {
             $this->setIdProjet($projet["id_projet"]);
@@ -170,7 +166,6 @@ class Projet{
         }else{
             return false;
         }
-
 
     }
 
@@ -186,29 +181,30 @@ class Projet{
         return $taches_id;
     }
 
-    public function createTaches(){
+    public function createTaches($number_of_taches){
         $id_taches = $this->getTachesIdsFromProjet();
         if ($id_taches) {
+            $i = 1;
             foreach ($id_taches as $id_tache){
-                $tache = new Tache($this->db, $id_tache["id_tache"]);
-                $tache->printTache($this->getOrdre());
+                $tache_final = $i == $number_of_taches ? true : false;
+                $tache = new Tache($id_tache["id_tache"]);
+                $tache->printTache($this->getOrdre(), $tache_final);
+                $i++;
             }
         }
     }
 
     public function printTitle(){
-        echo '<a href="javascript:;" class="title projet'.$this->getOrdre().'">'.$this->getNom().'</a>';
+        echo '<a href="javascript:;" class="title projet'.$this->getOrdre().'" id="'.$this->getIdProjet().'">'.$this->getNom().'</a>';
     }
 
     /**
      * Sauvegarde un nouveau projet dans la db
      */
     private function insertProject($projet){
-        $query = $this->db->insert( array_keys($projet) )
-            ->into('projets')
-            ->values( array_values($projet) );
 
-        return $insert_id = $query->execute(false);
+        $insert_id = parent::insert($projet, 'projets');
+        return $insert_id;
     }
 
     /**
