@@ -384,3 +384,49 @@ a.title:hover {
 .projet10 {
 	left: 2000px;
 }
+
+
+
+/*------------------------------------------*\
+    # Tooltip
+\*------------------------------------------*/
+.tooltip {
+	position: relative;
+	display: inline-block;
+	border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+	visibility: hidden;
+	width: 120px;
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 0;
+
+	/* Position the tooltip */
+	position: absolute;
+	z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+	visibility: visible;
+}
+
+.toogle_form{
+	position: absolute;
+	top: 7%;
+	right: 23%;
+}
+
+
+.form_fixed{
+	position: absolute;
+	right: 0;
+	top: 10%;
+	height: 300px;
+	background: white;
+	z-index: 10000;
+	padding: 2%;
+}

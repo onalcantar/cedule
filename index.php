@@ -7,9 +7,7 @@
  */
 
 require_once 'config.inc';
-global $taches_helper;
-$taches_helper = new \Ubeo\TachesHelper();
-//$projects = $taches_helper::getIdProjects();
+$projects = $helper::getIdsProjects($db);
 
 ?>
 
@@ -61,26 +59,58 @@ $taches_helper = new \Ubeo\TachesHelper();
 
 <div id="weeks">
     <?php
-
-    $projet_controller = new \Ubeo\ProjetController();
-    $projet_controller->printAllTaches();
-
-    /*if (isset($projects)){
-        foreach ($projects as $id_projet){
-            $number_of_taches = $taches_helper::countNumberOfTachesParProjet($id_projet["id_projet"]);
-            $project = new Ubeo\Projet($id_projet["id_projet"]);
+    if (isset($projects)){
+        foreach ($projects as $id_project){
+            $project = new \Ubeo\Project( $id_project["id_project"] );
             $project->printTitle();
-            $project->createTaches($number_of_taches);
+            $project->printTasks();
         }
-    }*/
+    }
 
     ?>
 </div>
 
 <?php
-    $taches_helper::printSemaines();
+    $helper::printSemaines( $db );
 ?>
 
+
+<a class="toogle_form" onclick="showAndHideForm( this )"><i>X</i></a>
+<div class="form_fixed add_projet">
+
+    <h1>Ajouter un projet</h1>
+
+    <form method="post" action="classes/Project.php" class="form_projets" >
+        <input type="hidden" name="action" value="add_project" />
+
+        <input type="text" name="project_name" value="" placeholder="Nom du projet" required />
+        <input placeholder="Date de livraison" name="delivery_date" class="textbox-n" type="text" onfocus="(this.type='date', this.value='<?php echo date('Y-m-d'); ?>' )"  id="date">
+        <button type="submit">Ajouter</button>
+
+    </form>
+</div>
+
+
+<a class="toogle_form_projet" onclick="showAndHideForm( this )"><i>X</i></a>
+<div class="form_fixed_projet add_tache">
+
+    <h1>Ajouter une tâche</h1>
+
+    <form method="post" action="classes/Task.php" class="form_taches" >
+        <input type="hidden" name="action" value="ajouter_tache" />
+
+        <input type="text" name="nom_tache" value="" placeholder="Nom de la tâche" required />
+        <input placeholder="Date de debut" name="date_debut" class="textbox-n" type="text" onfocus="(this.type='date', this.value='<?php echo date('Y-m-d'); ?>' )"  id="date">
+        <input type="number" placeholder="Durée (en semaines)" name="duree" value="1" />
+        <textarea name="notes" placeholder="Notes"></textarea>
+        <input type="checkbox" name="terminee" value="">Terminée
+        <select name="id_projet">
+            <option name="1" value="1">Ubeo</option>
+        </select>
+        <button type="submit">Ajouter</button>
+
+    </form>
+</div>
 
 </body>
 </html>

@@ -7,8 +7,8 @@
  */
 
 setlocale(LC_TIME, "fr_CA");
-require_once 'db/BD.php';
-require_once 'classes/Tache.php';
+require_once 'db/DB.php';
+require_once 'classes/Task.php';
 
 $tache = new Tache($pdo, 1);
 
