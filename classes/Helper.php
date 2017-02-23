@@ -110,6 +110,21 @@ class Helper
         return $data;
     }
 
+	/**
+	 * Reécupère tous les projets dans la BD
+	 */
+	public static function getProjects( $db ){
+		$query = $db->select( ['id_project', 'project_name'] )
+		            ->from( 'projects' )
+		            ->where( 'active', '=', '1' )
+		            ->orderby( 'id_project' );
+
+		$stmt = $query->execute();
+		$data = $stmt->fetchAll();
+
+		return $data;
+	}
+
     /**
      * Génere une date formatée en français
      *

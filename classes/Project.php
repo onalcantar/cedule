@@ -14,6 +14,7 @@ use Ubeo\Task;
 
 if ( isset( $_POST["action"] ) && !empty( $_POST["action"] ) ){
 
+
     include_once '../db/config.inc';
 
     switch ( $_POST["action"] ){
@@ -24,14 +25,24 @@ if ( isset( $_POST["action"] ) && !empty( $_POST["action"] ) ){
 
                 $project = [ "project_name" => htmlspecialchars( $_POST["project_name"] ) ];
 
-                if ( isset($_POST['delivery_date']) && !empty($_POST['delivery_date']) ){
-	                $project []= [ "delivery_date" => htmlspecialchars($_POST['delivery_date']) ];
+	            if ( isset($_POST['delivery_date']) && !empty($_POST['delivery_date']) ){
+		            $project["delivery_date"] = htmlspecialchars($_POST['delivery_date']) ;
+	            }
+
+                if ( isset($_POST['date_confirmed']) && !empty($_POST['date_confirmed']) ){
+                	if ($_POST['date_confirmed'] == "confirmed"){
+		                $project["delivery_date"] = null;
+	                }
                 }
 
                 $new_project = new Project( $project );
 
                 if ( $new_project ){
-                    echo '<meta http-equiv="refresh" content="0; url=http://cedule.dev.dev-ubeo.com/">';
+	                $_SESSION["message"] = "Success";
+                    echo '<meta http-equiv="refresh" content="0; url=http://cedule.dev.dev-ubeo.com/formulaires/addProject.php">';
+                }else{
+	                $_SESSION["message"] = "Error";
+	                echo '<meta http-equiv="refresh" content="0; url=http://cedule.dev.dev-ubeo.com/formulaires/addProject.php">';
                 }
             }
 
@@ -49,10 +60,18 @@ if ( isset( $_POST["action"] ) && !empty( $_POST["action"] ) ){
 	                    $project->setDeliveryDate( htmlspecialchars($_POST['delivery_date']) );
                     }
 
+	                if ( isset($_POST['date_confirmed']) && !empty($_POST['date_confirmed']) ){
+		                if ($_POST['date_confirmed'] == "confirmed"){
+			                $project->setDeliveryDate(null);
+		                }
+	                }
+
                     if ( $project->save() ){
-                        echo '<meta http-equiv="refresh" content="0; url=http://cedule.dev.dev-ubeo.com/">';
+	                    $_SESSION["message"] = "Success";
+                        echo '<meta http-equiv="refresh" content="0; url=http://cedule.dev.dev-ubeo.com/formulaires/modifyProject.php">';
                     }else{
-                        echo "Error";
+	                    $_SESSION["message"] = "Error";
+	                    echo '<meta http-equiv="refresh" content="0; url=http://cedule.dev.dev-ubeo.com/formulaires/modifyProject.php">';
                     }
                 }
             }
@@ -76,7 +95,7 @@ class Project{
     public static $_current_order = 1;
     private $_order;
 
-    function __construct( $project )
+    function __construct( $project = null )
     {
         $this->setOrder( self::$_current_order );
         self::$_current_order++;
@@ -230,7 +249,12 @@ class Project{
         $stmt = $query->execute();
         $tasks_ids = $stmt->fetchAll();
 
-        return $tasks_ids;
+        if ( $tasks_ids ){
+        	return $tasks_ids;
+        }else{
+        	return false;
+        }
+
     }
 
     /**
@@ -258,7 +282,14 @@ class Project{
      */
     public function printTitle(){
         //$date_livraison = $this->getDateLivraison() != null ? $this->getDateLivraison() : "";
-        echo '<a href="javascript:;" ondblclick="showFormulaireModifierProjet( '.$this->getIdProject().', '."'".$this->getProjectName()."'".', '."'".$this->getDeliveryDate()."'".'  )" class="title projet'.$this->getOrder().'" id="'.$this->getIdProject().'">'.$this->getProjectName().'</a>';
+        echo '<a data-id="'.$this->getIdProject().'" 
+                data-name="'.$this->getProjectName().'" 
+                data-date="'.$this->getDeliveryDate().'"
+                data-fancybox-type="iframe"
+                href="formulaires/modifyProject.php" 
+                class="title projet'.$this->getOrder().' various">'
+                    .$this->getProjectName().
+             '</a>';
     }
 
     /**
@@ -296,6 +327,24 @@ class Project{
         echo    '<h6>'.$end_date.'</h6>';
         echo '</div>';
     }
+
+
+	public function countProjectTasks(){
+
+		$query = $this->db->select()
+		            ->count( $column = 'id_task', $as = 'tasks_number', $distinct = false )
+		            ->from( 'tasks' )
+		            ->where( 'id_project', '=', $this->getIdProject() );
+
+		$stmt = $query->execute();
+		$tasks_number = $stmt->fetch();
+
+		if ( $tasks_number ){
+			return $tasks_number["tasks_number"];
+		}
+	}
+
+
 
     /**
      * Effectue les modifications dans la BD de la tâche currente selon ses attributs

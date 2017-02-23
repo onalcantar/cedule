@@ -1,4 +1,5 @@
 <?php
+	session_start();
 
     //define('__ROOT__', dirname(dirname(__FILE__)).'/public_html/' );
     define('__ROOT__', dirname(dirname(__FILE__)).'/cedule/' );

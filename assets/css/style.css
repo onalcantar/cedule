@@ -430,3 +430,23 @@ a.title:hover {
 	z-index: 10000;
 	padding: 2%;
 }
+
+
+#cta-buttons-wrapper {
+	display: block;
+	position: fixed;
+	bottom: 50%;
+	right: 0px;
+	width: 8%;
+	text-align: center;
+}
+
+#cta-buttons {
+	display: block;
+	position: relative;
+}
+
+.btn {
+	border-radius: 0px;
+	min-width: 128px;
+}

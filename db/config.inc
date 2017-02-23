@@ -1,6 +1,7 @@
 <?php
 
     //Fichier de configuration d'accès à la BD pour les requêtes AJAX
+	session_start();
 
     define("DB_DATABASE", "cedulede_cedule");
     define("DB_HOST", "127.0.0.1");

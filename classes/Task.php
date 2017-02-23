@@ -84,6 +84,61 @@ if ( isset( $_POST["action"] ) && !empty( $_POST["action"] ) ){
             }
 
             break;
+
+	    case "add_task":
+
+	    	$task = [];
+
+	    	if ( isset($_POST["project"]) && !empty($_POST["project"]) ){
+	    		$task["id_project"] = $_POST["project"];
+		    }
+
+		    if ( isset($_POST["task_name"]) && !empty($_POST["task_name"]) ){
+			    $task["task_name"] = $_POST["task_name"];
+		    }
+
+		    if ( isset($_POST["start_date"]) && !empty($_POST["start_date"]) ){
+			    $task["start_date"] = $_POST["start_date"];
+		    }
+
+		    if ( isset($_POST["duration"]) && !empty($_POST["durati2on"]) ){
+			    $task["duration"] = $_POST["duration"];
+		    }
+
+		    if ( isset($_POST["notes"]) && !empty($_POST["notes"]) ){
+			    $task["notes"] = $_POST["notes"];
+		    }
+
+		    if ( isset($_POST["completed"]) && !empty($_POST["completed"]) ){
+				    $task["completed"] = 1;
+		    }
+
+
+			include_once "Project.php";
+		    global $project_object;
+		    $project_object = new Project( $task["id_project"] );
+
+		    if( $projects_ids =$project_object->getTasksIdsFromProject() ){
+
+			    $last_task_id = end($projects_ids);
+			    $last_task_id = $last_task_id["id_task"];
+
+			    $last_task = new Task( $last_task_id );
+
+			    $task["start_date"] = date( 'Y-m-d', strtotime( $last_task->getStartDate() ) + (60 * 60 * 24 * 7 * $last_task->getDuration()) );
+		    }
+
+		    $new_task = new Task( $task );
+
+		    if ( $new_task) {
+			    $_SESSION["message"] = "Success";
+			    echo '<meta http-equiv="refresh" content="0; url=http://cedule.dev.dev-ubeo.com/formulaires/addTask.php">';
+		    }else{
+			    $_SESSION["message"] = "Error";
+			    echo '<meta http-equiv="refresh" content="0; url=http://cedule.dev.dev-ubeo.com/formulaires/addTask.php">';
+		    }
+
+	    	break;
     }
 
 
@@ -284,7 +339,8 @@ class Task{
      * Sauvegarde une nouvelle tâche dans la BD
      */
     private function insertTask( $task ) {
-	    $query = $this->bd->insert( array_keys( $task )  )
+
+	    $query = $this->db->insert( array_keys( $task )  )
 	                               ->into( 'tasks' )
 	                               ->values( array_values( $task ) );
 
@@ -423,7 +479,7 @@ class Task{
 	    $task = '<div class="box projet'.$project_order.' '.$week.' '.$this->getTaskStatus().'" style="top:'.$position_top.'px;">';
 	    $task .= '<h6 ondblclick="showDatePicker( this, '.$this->getIdTask().', '."'".$this->getStartDate()."'".' )" >'.$start_date.'</h6>';
         //$Task .= $this->getDateDebutAvecFormulaire();
-	    $task .= '<form id="form-id-'.$this->getIdTask().'" action="classes/Task.php" method="post" >';
+	    $task .= '<form href="formulaires/addTask.php" class="task_form" id="form-id-'.$this->getIdTask().'" action="classes/Task.php" method="post" data-fancybox-type="iframe" >';
 	    $task .= '<input type="hidden" name="id_task" value="'.$this->getIdTask().'" />';
 	    $task .= '<input type="hidden" name="action" value="close_task" />';
 	    $task .= '<p>'.$this->getTaskName().'<br>';
